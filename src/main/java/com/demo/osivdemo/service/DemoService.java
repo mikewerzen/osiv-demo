@@ -1,12 +1,13 @@
 package com.demo.osivdemo.service;
 
-import com.demo.osivdemo.SessionUtils;
+import com.demo.osivdemo.dto.ParentEntityDto;
+import com.demo.osivdemo.util.EntityMapper;
+import com.demo.osivdemo.util.SessionUtils;
 import com.demo.osivdemo.domain.ChildEntity;
 import com.demo.osivdemo.domain.GrandchildEntity;
 import com.demo.osivdemo.domain.ParentEntity;
 import com.demo.osivdemo.repository.ParentEntityRepository;
 import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,13 +108,20 @@ public class DemoService {
     }
 
     @Transactional
-    public ParentEntity getFamilyNoOSIV() {
+    public ParentEntity getFamilyNoOSIVHacky() {
         logger.info("Getting Family in Non-OSIV Environment");
         ParentEntity parent = parentEntityRepository.findById(1L).get();
         for(ChildEntity childEntity : parent.getChildEntities()) {
             childEntity.getGrandchildEntities().size();
         }
         return parent;
+    }
+
+    @Transactional
+    public ParentEntityDto getFamilyNoOSIV() {
+        logger.info("Getting Family in Non-OSIV Environment");
+        ParentEntity parent = parentEntityRepository.findById(1L).get();
+        return EntityMapper.mapEntityToDTO(parent);
     }
 
     public ParentEntity saveFamily() {

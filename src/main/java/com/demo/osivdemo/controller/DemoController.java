@@ -1,6 +1,7 @@
 package com.demo.osivdemo.controller;
 
 import com.demo.osivdemo.domain.ParentEntity;
+import com.demo.osivdemo.dto.ParentEntityDto;
 import com.demo.osivdemo.service.DemoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,8 +68,13 @@ public class DemoController {
         return demoService.getFamily();
     }
 
+    @GetMapping("/familyNoOSIVHacky")
+    public ParentEntity getFamilyNoOSIVHacky() {
+        return demoService.getFamilyNoOSIVHacky();
+    }
+
     @GetMapping("/familyNoOSIV")
-    public ParentEntity getFamilyNoOSIV() {
+    public ParentEntityDto getFamilyNoOSIV() {
         return demoService.getFamilyNoOSIV();
     }
 }

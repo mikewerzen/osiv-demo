@@ -1,4 +1,4 @@
-package com.demo.osivdemo;
+package com.demo.osivdemo.util;
 
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
