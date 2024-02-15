@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        generate_statistics: true
+logging:
+  level:
+    root: INFO
+    com.demo: DEBUG
+    org.hibernate.sql: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: INFO
+    org.hibernate.engine.transaction.internal.TransactionImpl: DEBUG
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    com.zaxxer.hikari: TRACE
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
+server:
+  port: 8089
