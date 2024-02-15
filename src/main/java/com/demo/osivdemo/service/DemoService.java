@@ -106,6 +106,16 @@ public class DemoService {
         return parentEntityRepository.findById(1L);
     }
 
+    @Transactional
+    public ParentEntity getFamilyNoOSIV() {
+        logger.info("Getting Family in Non-OSIV Environment");
+        ParentEntity parent = parentEntityRepository.findById(1L).get();
+        for(ChildEntity childEntity : parent.getChildEntities()) {
+            childEntity.getGrandchildEntities().size();
+        }
+        return parent;
+    }
+
     public ParentEntity saveFamily() {
         logger.info("Saving Family!");
         ParentEntity parent = createFamily("Smith", 2, 3);
@@ -142,5 +152,4 @@ public class DemoService {
 
         return  parentEntity;
     }
-
 }

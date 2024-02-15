@@ -66,4 +66,9 @@ public class DemoController {
     public Optional<ParentEntity> getFamily() {
         return demoService.getFamily();
     }
+
+    @GetMapping("/familyNoOSIV")
+    public ParentEntity getFamilyNoOSIV() {
+        return demoService.getFamilyNoOSIV();
+    }
 }
