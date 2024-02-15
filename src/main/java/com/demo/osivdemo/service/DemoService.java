@@ -6,6 +6,8 @@ import com.demo.osivdemo.domain.GrandchildEntity;
 import com.demo.osivdemo.domain.ParentEntity;
 import com.demo.osivdemo.repository.ParentEntityRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,62 @@ public class DemoService {
         sessionUtils.logActiveConnections();
         demoExternalService.pretendToMakeRestCall();
         sessionUtils.logActiveConnections();
+    }
+
+    public ParentEntity getSingleParentInOSIV() {
+        logger.info("Get single parent in OSIV!");
+        sessionUtils.logActiveConnections();
+        ParentEntity parent = parentEntityRepository.findById(1L).get();
+        logger.info("Retrieved Parent");
+        sessionUtils.logActiveConnections();
+
+        demoExternalService.pretendToMakeRestCall();
+
+        return parent;
+    }
+
+    public ParentEntity getSingleParentWithSeparateSession() {
+        logger.info("Get single parent with separate session!");
+        sessionUtils.logActiveConnections();
+        Session separateSession = sessionUtils.createNewSession();
+        ParentEntity parent = separateSession.get(ParentEntity.class, 1L);
+        logger.info("Using separate session");
+        sessionUtils.logActiveConnections();
+        parent.getChildEntities().size();
+        separateSession.close();
+        logger.info("Done with separate session");
+        sessionUtils.logActiveConnections();
+
+        demoExternalService.pretendToMakeRestCall();
+
+        return parent;
+    }
+
+    public ParentEntity getSingleParentInAsyncSession() {
+        logger.info("Get single parent in AsyncSession!");
+        sessionUtils.logActiveConnections();
+        ParentEntity parent = sessionUtils.executeInAsyncSession(() -> {
+            logger.info("Inside Async Session!");
+            ParentEntity parentEntity = parentEntityRepository.findById(1L).get();
+            sessionUtils.logActiveConnections();
+            return parentEntity;
+        });
+        logger.info("Retrieved Parent");
+        sessionUtils.logActiveConnections();
+
+        demoExternalService.pretendToMakeRestCall();
+
+        logger.info("Merging in parent");
+        parent = parentEntityRepository.save(parent);
+        return parent;
+    }
+
+    public ParentEntity saveSingleParent() {
+        ParentEntity parentEntity = new ParentEntity();
+        parentEntity.setName("Single Parent");
+        parentEntity.setDescription("This parent doesn't have children");
+        parentEntityRepository.save(parentEntity);
+        return parentEntity;
     }
 
     public Optional<ParentEntity> getFamily() {

@@ -32,6 +32,26 @@ public class DemoController {
         demoService.doSomethingTransactional();
     }
 
+    @PostMapping("/singleparent")
+    public void createSingleParent() {
+        demoService.saveSingleParent();
+    }
+
+    @GetMapping("/getSingleParentInOSIV")
+    public ParentEntity getSingleParent() {
+        return  demoService.getSingleParentInOSIV();
+    }
+
+    @GetMapping("/getSingleParentWithSeparateSession")
+    public ParentEntity getSingleParentWithSeparateSession() {
+        return  demoService.getSingleParentWithSeparateSession();
+    }
+
+    @GetMapping("/getSingleParentInAsyncSession")
+    public ParentEntity getSingleParentInAsyncSession() {
+        return  demoService.getSingleParentInAsyncSession();
+    }
+
     @PostMapping("/family")
     public void createFamily() {
         demoService.saveFamily();
